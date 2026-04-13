@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammed Riyas - Resume</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --accent: #C5A059;
+            --dark: #0D0D0D;
+            --text-secondary: #94A3B8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            color: var(--dark);
+            margin: 0;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        @media print {
+            body { padding: 0; }
+            .no-print { display: none; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .subtitle {
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .contact-info {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            margin-bottom: 25px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .item-period {
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+
+        .item-sub {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: #f8f9fa;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .no-print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.4);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <button class="no-print no-print-btn" onclick="window.print()">PRINT TO PDF</button>
+
+    <div class="container">
+        <header>
+            <div>
+                <h1>MUHAMMED RIYAS</h1>
+                <div class="subtitle">Interior Designer & 3D Visualizer</div>
+            </div>
+            <div class="contact-info">
+                +971 50 167 5478<br>
+                muhammedriyas188@gmail.com<br>
+                Al Quoz, Dubai
+            </div>
+        </header>
+
+        <div class="section">
+            <div class="section-title">Profile</div>
+            <p style="font-size: 0.95rem; color: #444;">A self-motivated all-around junior interior designer. Build experience with schematic design and design development, creative, possess, initiative active goals, highly responsible and a team player perform effectively within a high-pressure work environment. I'm always willing to learn new things and pay attention to details. My dream is to impact others' lives through my design – I believe design is beyond aesthetics.</p>
+        </div>
+
+        <div class="grid">
+            <div>
+                <div class="section">
+                    <div class="section-title">Experience</div>
+                    
+                    <div class="item">
+                        <div class="item-header">
+                            <div>Furniture Designer</div>
+                            <div class="item-period">2024 – PRESENT</div>
+                        </div>
+                        <div class="item-sub">Real Touch Furniture</div>
+                        <ul>
+                            <li>Created innovative and ergonomic office furniture designs.</li>
+                            <li>Met with clients to understand requirements and preferences.</li>
+                            <li>Managed multiple design projects simultaneously.</li>
+                            <li>Worked closely with architects for project implementation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="item">
+                        <div class="item-header">
+                            <div>Interior & Exterior Designer</div>
+                            <div class="item-period">2022 – 2023</div>
+                        </div>
+                        <div class="item-sub">D-Notion Interiors</div>
+                        <ul>
+                            <li>Oversaw various stages of the construction process.</li>
+                            <li>Produced architectural plans using CAD software.</li>
+                            <li>Design floor plans, elevations, and 3D views.</li>
+                            <li>Provided management with estimates on cost and time.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="section">
+                    <div class="section-title">Education</div>
+                    <div class="item">
+                        <div class="item-header">
+                            <div>Diploma in Interior Design</div>
+                            <div class="item-period">2022 – 2023</div>
+                        </div>
+                        <div class="item-sub">GCC Finishing School Perinthalmanna</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-header">
+                            <div>ITI Draughtsman Civil</div>
+                            <div class="item-period">2019 – 2021</div>
+                        </div>
+                        <div class="item-sub">Lt. Colonel Niranjan Memorial Govt</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Software Arsenal</div>
+                    <div class="skills-grid">
+                        <div class="skill-tag">SketchUp</div>
+                        <div class="skill-tag">AutoCAD</div>
+                        <div class="skill-tag">Enscape</div>
+                        <div class="skill-tag">Lumion</div>
+                        <div class="skill-tag">D5 Render</div>
+                        <div class="skill-tag">CooHome</div>
+                        <div class="skill-tag">Photoshop</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Languages</div>
+                    <div style="font-size: 0.85rem; color: #444;">
+                        English, Hindhi, Malayalam, Tamil, Arabic
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

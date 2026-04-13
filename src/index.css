@@ -1,0 +1,217 @@
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg-color:       #0d0d0d;
+  --accent-gold:    #c5a059;
+  --text-primary:   #ffffff;
+  --text-secondary: #94a3b8;
+  --glass-bg:       rgba(255, 255, 255, 0.03);
+  --glass-border:   rgba(255, 255, 255, 0.1);
+  --gold-glow:      0 0 24px rgba(197, 160, 89, 0.35);
+  --rim-light:      inset 0 0 15px rgba(255, 255, 255, 0.08);
+  --diffuse-glow:   0 30px 60px rgba(0, 0, 0, 0.5);
+  --nav-height:     72px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESETS & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button { font-family: inherit; }
+a { color: inherit; }
+
+/* ═══════════════════════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLASSMORPHISM
+═══════════════════════════════════════════════════════════ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════════════════════════ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: var(--bg-color); }
+::-webkit-scrollbar-thumb  { background: #2a2a2a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+
+/* ═══════════════════════════════════════════════════════════
+   SECTIONS – Global responsive container
+═══════════════════════════════════════════════════════════ */
+section {
+  padding: 100px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── 2-column grids inside sections → stack on tablet ─── */
+section .two-col,
+section [style*="gridTemplateColumns: 'minmax"],
+section [style*="gridTemplateColumns: '1.2fr"],
+section [style*="gridTemplateColumns: '1fr 1fr"] {
+  grid-template-columns: 1fr !important;
+}
+
+/* ─── Utility classes ─── */
+.text-center { text-align: center; }
+.mobile-hide { }
+.fade-in-up  { opacity: 0; transform: translateY(30px); }
+
+/* ═══════════════════════════════════════════════════════════
+   ABOUT – responsive overrides
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  #about div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    gap: 50px !important;
+  }
+  #about div[style*="aspectRatio"] {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  #about div[style*="gridTemplateColumns: '1fr 1fr'"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PORTFOLIO GRID – responsive overrides
+═══════════════════════════════════════════════════════════ */
+#portfolio .filter-bar {
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+#portfolio .filter-bar button {
+  font-size: 0.78rem !important;
+  padding: 10px 18px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EDUCATION / EXPERIENCE – responsive overrides
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #education  div[style*="gridTemplateColumns"],
+  #experience div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CONTACT – responsive overrides
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #contact div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  #contact form {
+    padding: 30px 20px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BREAKPOINTS
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  section { padding: 80px 5%; }
+}
+
+@media (max-width: 768px) {
+  section { padding: 70px 5%; }
+  .mobile-hide { display: none !important; }
+
+  h1 { font-size: clamp(2rem, 8vw, 3rem)   !important; }
+  h2 { font-size: clamp(1.8rem, 7vw, 2.5rem) !important; }
+  h3 { font-size: clamp(1.2rem, 5vw, 1.8rem) !important; }
+}
+
+@media (max-width: 480px) {
+  section { padding: 60px 20px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PORTFOLIO GRID – masonry column override
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  #portfolio [style*="columnCount"] {
+    column-count: 1 !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HOVER: portfolio cards
+═══════════════════════════════════════════════════════════ */
+div:hover > .hover-info { opacity: 1 !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT OVERRIDES
+═══════════════════════════════════════════════════════════ */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
+}
