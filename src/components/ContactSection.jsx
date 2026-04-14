@@ -14,7 +14,7 @@ const ContactSection = () => {
           viewport={{ once: true }}
         >
           <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '2px' }}>CONTACT</span>
-          <h2 style={{ fontSize: '3.5rem', marginTop: '10px', marginBottom: '40px', fontFamily: 'Playfair Display, serif', lineHeight: 1.1 }}>
+          <h2 style={{ fontSize: '3.5rem', marginTop: '10px', marginBottom: '40px', fontFamily: 'var(--font-heading)', lineHeight: 1.1 }}>
             I want to <span style={{ color: 'var(--accent-gold)' }}>hear from you.</span>
           </h2>
           

@@ -129,7 +129,7 @@ const PortfolioGrid = () => {
         style={{ textAlign: 'center', marginBottom: '60px' }}
       >
         <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '2px' }}>PORTFOLIO GRID</span>
-        <h2 style={{ fontSize: '3.5rem', marginTop: '10px', fontFamily: 'Playfair Display, serif' }}>
+        <h2 style={{ fontSize: '3.5rem', marginTop: '10px', fontFamily: 'var(--font-heading)' }}>
           Technical <span style={{ color: 'var(--accent-gold)' }}>Excellence.</span>
         </h2>
       </motion.div>

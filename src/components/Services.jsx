@@ -28,7 +28,7 @@ const ServiceCard = ({ title, description, icon: Icon, index }) => {
       }}>
         <Icon size={32} strokeWidth={1.5} />
       </div>
-      <h3 style={{ fontSize: '1.4rem', color: 'white', marginBottom: '15px', fontFamily: 'Playfair Display, serif' }}>{title}</h3>
+      <h3 style={{ fontSize: '1.4rem', color: 'white', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>{title}</h3>
       <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>{description}</p>
     </motion.div>
   );

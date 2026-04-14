@@ -272,13 +272,13 @@ const Hero = () => {
           margin-bottom: 4px;
           color: var(--text-primary);
           letter-spacing: -1px;
-          font-family: 'Playfair Display', serif;
+          font-family: var(--font-heading);
         }
 
         .hero-subheadline {
           font-size: clamp(0.95rem, 2vw, 1.2rem);
           color: var(--text-secondary);
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-body);
           line-height: 1.7;
           margin-bottom: 44px;
           max-width: 560px;
@@ -301,7 +301,7 @@ const Hero = () => {
           letter-spacing: 2px;
           cursor: pointer;
           border-radius: 6px;
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-body);
           transition: transform 0.2s;
         }
 
@@ -315,7 +315,7 @@ const Hero = () => {
           letter-spacing: 2px;
           cursor: pointer;
           border-radius: 6px;
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-body);
           transition: all 0.3s ease;
         }
 

@@ -1,136 +1,198 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-const SkillBar = ({ skill, percentage }) => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({ threshold: 0.1 });
+const skills = [
+  'Architectural 3D Visualization',
+  'Exterior & Interior Rendering',
+  'Lighting and Material Setup',
+  '3D Modeling',
+  'Presentation Visualization',
+  'Technical Drawing & CAD Drafting',
+  'Team Coordination and Project Support',
+];
 
-  useEffect(() => {
-    if (inView) {
-      controls.start({ width: `${percentage}%` });
-    }
-  }, [controls, inView, percentage]);
-
-  return (
-    <div ref={ref} style={{ marginBottom: '25px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-        <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'white' }}>{skill}</span>
-        <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem', fontWeight: 700 }}>{percentage}%</span>
-      </div>
-      <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', overflow: 'hidden' }}>
-        <motion.div
-          initial={{ width: 0 }}
-          animate={controls}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          style={{ height: '100%', background: 'var(--accent-gold)', borderRadius: '10px' }}
-        />
-      </div>
-    </div>
-  );
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
 };
 
-const StatItem = ({ value, label, suffix = "" }) => {
-  const [count, setCount] = useState(0);
-  const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
-
-  useEffect(() => {
-    if (inView) {
-      let start = 0;
-      const end = parseInt(value);
-      if (start === end) return;
-      
-      let timer = setInterval(() => {
-        start += 1;
-        setCount(start);
-        if (start === end) clearInterval(timer);
-      }, 2000 / end);
-    }
-  }, [inView, value]);
-
-  return (
-    <div ref={ref} style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--accent-gold)', fontFamily: 'Playfair Display, serif' }}>
-        {count}{suffix}
-      </div>
-      <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', marginTop: '5px' }}>
-        {label}
-      </div>
-    </div>
-  );
+const pillVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.94 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const CoreSkills = () => {
-  const technicalArsenal = [
-    { skill: "AutoCAD (2D/3D)", percentage: 95 },
-    { skill: "SketchUp", percentage: 90 },
-    { skill: "Lumion", percentage: 85 },
-    { skill: "D5 Render", percentage: 88 },
-    { skill: "Enscape", percentage: 82 },
-    { skill: "Adobe Photoshop", percentage: 75 },
-    { skill: "CooHome", percentage: 80 }
-  ];
+  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true });
 
   return (
-    <section id="software" style={{ padding: '100px 5%' }}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        style={{ textAlign: 'center', marginBottom: '80px' }}
-      >
-        <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '2px' }}>TECHNICAL ARSENAL</span>
-        <h2 style={{ fontSize: '3.5rem', marginTop: '10px', fontFamily: 'Playfair Display, serif' }}>Software <span style={{ color: 'var(--accent-gold)' }}>Mastery.</span></h2>
-      </motion.div>
+    <>
+      <section id="skills" ref={ref} className="cs-section">
+        {/* ── Heading ── */}
+        <motion.div
+          className="cs-heading-block"
+          initial={{ opacity: 0, y: 28 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="cs-eyebrow">What I Bring</span>
+          <h2 className="cs-heading">Core Skills</h2>
+          <div className="cs-rule" />
+        </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '100px', alignItems: 'flex-start' }}>
-        {/* Left: Progress Bars */}
-        <div>
-          {technicalArsenal.map((item) => (
-            <SkillBar key={item.skill} {...item} />
+        {/* ── Pill grid ── */}
+        <motion.div
+          className="cs-pills"
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+        >
+          {skills.map((skill) => (
+            <motion.button
+              key={skill}
+              className="cs-pill"
+              variants={pillVariants}
+              whileHover={{ scale: 1.06, borderColor: '#C4A574', color: '#C4A574' }}
+              whileTap={{ scale: 0.97 }}
+            >
+              {skill}
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
+      </section>
 
-        {/* Right: Stats and Badges */}
-        <div>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
-            gap: '40px', 
-            marginBottom: '60px',
-            backgroundColor: 'rgba(255,255,255,0.02)',
-            padding: '40px',
-            borderRadius: '20px',
-            border: '1px solid var(--glass-border)'
-          }}>
-            <StatItem value="3" label="Years Experience" suffix="+" />
-            <StatItem value="25" label="Projects Done" suffix="+" />
-            <StatItem value="7" label="Software Mastered" suffix="+" />
-            <StatItem value="100" label="Client Satisfaction" suffix="%" />
-          </div>
+      <style>{`
+        /* ── Section ── */
+        .cs-section {
+          background: #000;
+          padding: 110px 5% 100px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          max-width: 100%;
+          box-sizing: border-box;
+        }
 
-          <div className="glass" style={{ padding: '30px' }}>
-            <h4 style={{ color: 'white', marginBottom: '20px', fontSize: '1.1rem' }}>Soft Skills & Expertise</h4>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {["Space Planning", "3D Visualization", "CAD Draughting", "Materiality", "Schematic Design", "Site Oversight", "Team Collaboration"].map((skill) => (
-                <div key={skill} style={{ 
-                  padding: '8px 18px', 
-                  backgroundColor: 'rgba(197, 160, 89, 0.08)', 
-                  border: '1px solid rgba(197, 160, 89, 0.2)',
-                  borderRadius: '30px',
-                  color: 'var(--accent-gold)',
-                  fontSize: '0.75rem',
-                  fontWeight: 600
-                }}>
-                  {skill}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        /* ── Heading block ── */
+        .cs-heading-block {
+          text-align: center;
+          margin-bottom: 60px;
+        }
+
+        .cs-eyebrow {
+          display: block;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: #C4A574;
+          margin-bottom: 14px;
+          font-family: 'Lato', sans-serif;
+        }
+
+        .cs-heading {
+          font-family: 'Playfair Display', 'Georgia', serif;
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 700;
+          color: #C4A574;
+          margin: 0;
+          line-height: 1.1;
+          letter-spacing: -0.01em;
+        }
+
+        .cs-rule {
+          width: 60px;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, #C4A574, transparent);
+          margin: 22px auto 0;
+          border-radius: 2px;
+        }
+
+        /* ── Pills container ── */
+        .cs-pills {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 14px;
+          max-width: 860px;
+          width: 100%;
+        }
+
+        /* ── Individual pill ── */
+        .cs-pill {
+          background: #111;
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 50px;
+          padding: 14px 28px;
+          font-family: 'Lato', sans-serif;
+          font-size: 0.92rem;
+          font-weight: 400;
+          letter-spacing: 0.3px;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+          min-height: 48px;
+          line-height: 1;
+        }
+
+        .cs-pill:hover {
+          background: rgba(196, 165, 116, 0.06);
+        }
+
+        /* ── TABLET (768–1023px) ── */
+        @media (max-width: 1023px) and (min-width: 768px) {
+          .cs-section {
+            padding: 80px 5% 70px;
+          }
+          .cs-heading {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+          }
+          .cs-pills {
+            gap: 12px;
+            max-width: 680px;
+          }
+          .cs-pill {
+            padding: 13px 24px;
+            font-size: 0.88rem;
+          }
+        }
+
+        /* ── MOBILE (< 768px) ── */
+        @media (max-width: 767px) {
+          .cs-section {
+            padding: 70px 20px 60px;
+          }
+          .cs-heading {
+            font-size: clamp(1.8rem, 7vw, 2.2rem);
+          }
+          .cs-pills {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            max-width: 420px;
+          }
+          .cs-pill {
+            width: 100%;
+            text-align: center;
+            white-space: normal;
+            padding: 15px 20px;
+            font-size: 0.9rem;
+            min-height: 52px;
+          }
+        }
+
+        /* ── SMALL MOBILE (< 480px) ── */
+        @media (max-width: 479px) {
+          .cs-section {
+            padding: 60px 16px 50px;
+          }
+          .cs-heading-block {
+            margin-bottom: 44px;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 

@@ -59,7 +59,7 @@ const Header = () => {
           <motion.div
             whileHover={{ scale: 1.03 }}
             style={{
-              fontFamily: 'Playfair Display, serif',
+              fontFamily: 'var(--font-heading)',
               fontSize: 'clamp(1rem, 3vw, 1.25rem)',
               fontWeight: 700,
               color: 'var(--accent-gold)',
@@ -249,7 +249,7 @@ const Header = () => {
                     color: active === item ? 'var(--accent-gold)' : 'var(--text-primary)',
                     fontSize: '1.4rem',
                     fontWeight: 700,
-                    fontFamily: 'Playfair Display, serif',
+                    fontFamily: 'var(--font-heading)',
                     padding: '16px 0',
                     borderBottom: '1px solid rgba(255,255,255,0.06)',
                     display: 'flex',

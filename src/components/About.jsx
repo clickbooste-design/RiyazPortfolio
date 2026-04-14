@@ -99,7 +99,7 @@ const About = () => {
           viewport={{ once: true }}
         >
           <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '2px' }}>PROFILE & EXPERTISE</span>
-          <h2 style={{ fontSize: '3.5rem', marginTop: '10px', marginBottom: '30px', fontFamily: 'Playfair Display, serif' }}>
+          <h2 style={{ fontSize: '3.5rem', marginTop: '10px', marginBottom: '30px', fontFamily: 'var(--font-heading)' }}>
             Transforming Concepts into <span style={{ color: 'var(--accent-gold)' }}>Reality.</span>
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem', lineHeight: 1.8, marginBottom: '35px' }}>

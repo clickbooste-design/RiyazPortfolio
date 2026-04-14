@@ -9,6 +9,11 @@
   --glass-bg:       rgba(255, 255, 255, 0.03);
   --glass-border:   rgba(255, 255, 255, 0.1);
   --gold-glow:      0 0 24px rgba(197, 160, 89, 0.35);
+
+  /* ── Font Families ── */
+  --font-heading: 'Arvo', Georgia, serif;
+  --font-body:    'Lato', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
   --rim-light:      inset 0 0 15px rgba(255, 255, 255, 0.08);
   --diffuse-glow:   0 30px 60px rgba(0, 0, 0, 0.5);
   --nav-height:     72px;
@@ -31,10 +36,15 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+
+  /* ── Maximum font smoothing ── */
+  -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering:          optimizeLegibility;
+  font-feature-settings:   'kern' 1, 'liga' 1, 'calt' 1;
+  font-kerning:            normal;
 }
 
 img, video {
@@ -47,12 +57,34 @@ button { font-family: inherit; }
 a { color: inherit; }
 
 /* ═══════════════════════════════════════════════════════════
-   TYPOGRAPHY
+   TYPOGRAPHY — Arvo Headings · Lato Body · JetBrains Mono Code
+   Arvo by Anton Koovit — geometric slab serifs, authoritative
+   Lato by Łukasz Dziedzic — humanist, clean, accessible
 ═══════════════════════════════════════════════════════════ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+/* Scale headings with optical refinement */
+h1 { font-weight: 800; letter-spacing: -0.03em; }
+h2 { font-weight: 700; letter-spacing: -0.025em; }
+h3 { font-weight: 600; letter-spacing: -0.01em; }
+h4 { font-weight: 600; }
+
+p, li, span, label, input, textarea, button {
+  font-family: var(--font-body);
+}
+
+/* Code elements */
+code, pre, kbd, samp, .mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  font-variant-ligatures: contextual;
 }
 
 /* ═══════════════════════════════════════════════════════════

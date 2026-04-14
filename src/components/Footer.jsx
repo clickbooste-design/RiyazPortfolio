@@ -22,7 +22,7 @@ const Footer = () => {
         {/* Branding & SEO */}
         <div style={{ maxWidth: '400px' }}>
           <h2 style={{ 
-            fontFamily: 'Playfair Display, serif', 
+            fontFamily: 'var(--font-heading)', 
             fontSize: '1.8rem', 
             color: 'var(--accent-gold)', 
             marginBottom: '20px' 

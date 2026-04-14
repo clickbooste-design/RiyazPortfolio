@@ -77,7 +77,7 @@ const ProjectDetails = () => {
           <h1 style={{ 
             fontSize: 'clamp(3rem, 8vw, 6rem)', 
             color: 'white', 
-            fontFamily: 'Playfair Display, serif',
+            fontFamily: 'var(--font-heading)',
             letterSpacing: '-2px',
             marginBottom: '20px'
           }}>
@@ -115,7 +115,7 @@ const ProjectDetails = () => {
                   {String(catIndex + 1).padStart(2, '0')}
                 </span>
               </div>
-              <h2 style={{ fontSize: '3rem', fontFamily: 'Playfair Display, serif' }}>{category}</h2>
+              <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)' }}>{category}</h2>
             </motion.div>
 
             <div style={{ 
@@ -143,7 +143,7 @@ const ProjectDetails = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '40px', fontFamily: 'Playfair Display, serif' }}>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '40px', fontFamily: 'var(--font-heading)' }}>
             Transform your vision into <span style={{ color: 'var(--accent-gold)' }}>Reality.</span>
           </h2>
           <a href="mailto:muhammedriyas188@gmail.com" style={{ textDecoration: 'none' }}>
