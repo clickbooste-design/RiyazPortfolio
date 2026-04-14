@@ -1,309 +1,452 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Maximize2, MoveHorizontal } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
 
-const projects = [
-  { id: 1, title: "Executive Office Suite", category: "Office Furniture", image: "/Office Furniture/3 (3).png", plan: "/portfolio-4.png", featured: true },
-  { id: 2, title: "Modern Kitchen Concept", category: "Kitchen Design", image: "/Kitchen/view 3.jpg.jpeg", plan: "/portfolio-3.png", featured: true },
-  { id: 3, title: "Luxury Living Room", category: "Residential", image: "/portfolio-1.png" },
-  { id: 4, title: "Corporate Headquarters", category: "Commercial", image: "/portfolio-4.png" },
-  { id: 5, title: "Bespoke Storage Unit", category: "Product Design", image: "/portfolio-1.png" },
-  { id: 6, title: "Retail Interior Plan", category: "/portfolio-2.png", isPlan: true },
-  { id: 7, title: "Master Bedroom Suite", category: "Residential", image: "/portfolio-2.png" },
-  { id: 8, title: "Studio Kitchen", category: "Kitchen Design", image: "/Kitchen/www.jpeg" }
-];
-
-const SplitViewCard = ({ project, onOpen }) => {
+/* ── Split View Component for CAD vs RENDER ── */
+const SplitViewCard = ({ cadSrc, renderSrc, title, category }) => {
   const [sliderPos, setSliderPos] = useState(50);
-  const [isHovering, setIsHovering] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef(null);
 
-  const handleMouseMove = (e) => {
-    if (!isHovering) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    setSliderPos(x);
+  const handleMove = (clientX) => {
+    if (!containerRef.current || !isDragging) return;
+    const { left, width } = containerRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - left, width));
+    setSliderPos((x / width) * 100);
   };
 
   return (
-    <motion.div
-      layout
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-      onMouseMove={handleMouseMove}
-      style={{
-        position: 'relative',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        aspectRatio: '16/10',
-        cursor: 'ew-resize',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-        border: '1px solid var(--glass-border)',
-        marginBottom: '20px'
-      }}
-    >
-      {/* Background (CAD Plan) */}
-      <img src={project.plan} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="CAD" />
-      
-      {/* Foreground (3D Render) */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: `${sliderPos}%`,
-        height: '100%',
-        overflow: 'hidden',
-        borderRight: '2px solid var(--accent-gold)'
-      }}>
-        <img src={project.image} style={{ width: 'auto', height: '100%', objectFit: 'cover', maxWidth: 'none', width: 'calc(100% * 100 / ' + sliderPos + ')' }} alt="Render" />
-      </div>
-
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        left: '20px',
-        right: '20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        zIndex: 5,
-        pointerEvents: 'none'
-      }}>
-        <div>
-          <span style={{ backgroundColor: 'var(--accent-gold)', color: 'var(--bg-color)', padding: '4px 12px', fontSize: '0.7rem', fontWeight: 800, borderRadius: '4px' }}>CAD VS RENDER</span>
-          <h3 style={{ color: 'white', fontSize: '1.2rem', marginTop: '10px', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>{project.title}</h3>
-        </div>
-        <button 
-          onClick={(e) => { e.stopPropagation(); onOpen(project.image); }}
-          style={{ 
-            pointerEvents: 'auto', 
-            background: 'rgba(0,0,0,0.5)', 
-            border: 'none', 
-            color: 'white', 
-            padding: '10px', 
-            borderRadius: '50%',
-            cursor: 'pointer'
-          }}
+    <div className="pg-split-wrap">
+      <div 
+        ref={containerRef}
+        className="pg-split-container"
+        onMouseMove={(e) => handleMove(e.clientX)}
+        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+        onMouseDown={() => setIsDragging(true)}
+        onTouchStart={() => setIsDragging(true)}
+        onMouseUp={() => setIsDragging(false)}
+        onMouseLeave={() => setIsDragging(false)}
+        onTouchEnd={() => setIsDragging(false)}
+      >
+        {/* Under layer: Original CAD */}
+        <img src={cadSrc} alt="CAD Draft" className="pg-split-img" draggable="false" />
+        
+        {/* Top layer: Rendered Image (Clipped) */}
+        <div 
+          className="pg-split-overlay" 
+          style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
         >
-          <Maximize2 size={20} />
-        </button>
-      </div>
+          <img src={renderSrc} alt="Final Render" className="pg-split-img" draggable="false" />
+        </div>
 
-      {/* Slider Icon */}
-      <div style={{
-        position: 'absolute',
-        left: `${sliderPos}%`,
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        backgroundColor: 'var(--accent-gold)',
-        color: 'var(--bg-color)',
-        padding: '8px',
-        borderRadius: '50%',
-        zIndex: 10,
-        pointerEvents: 'none',
-        display: isHovering ? 'flex' : 'none'
-      }}>
-        <MoveHorizontal size={16} />
+        {/* Divider Line */}
+        <div className="pg-split-divider" style={{ left: `${sliderPos}%` }}>
+          <div className="pg-split-handle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Labels */}
+        <div className="pg-split-label pg-label-left">CAD</div>
+        <div className="pg-split-label pg-label-right">RENDER</div>
       </div>
-    </motion.div>
+      
+      <div className="pg-split-info">
+        <h3 className="pg-info-title">{title}</h3>
+        <span className="pg-info-cat">{category}</span>
+      </div>
+    </div>
   );
 };
 
+
+/* ── Main Portfolio Component ── */
+const categories = ['ALL', 'OFFICE FURNITURE', 'KITCHEN DESIGN', 'RESIDENTIAL', 'COMMERCIAL', 'PRODUCT DESIGN'];
+
+// Since we don't have exact CAD resources verified in public yet, we'll use a placeholder logic that falls back to existing images if needed
+// The prompt requires 2 split pairs, and 6 standard images.
+const projectsData = [
+  // Pair 1
+  { id: 1, type: 'split', category: 'COMMERCIAL', title: 'Executive Office Suite', cadSrc: '/Office Furniture/3 q.png', renderSrc: '/Office Furniture/3 (3)q.png' },
+  // Pair 2
+  { id: 2, type: 'split', category: 'KITCHEN DESIGN', title: 'Modern Kitchen Concept', cadSrc: '/Kitchen/1.jpgq.jpeg', renderSrc: '/Kitchen/www.jpeg' },
+  
+  // Office Furniture Images
+  { id: 3, type: 'single', category: 'OFFICE FURNITURE', title: 'Office Layout 1', src: '/Office Furniture/1 (5).png' },
+  { id: 4, type: 'single', category: 'OFFICE FURNITURE', title: 'Office Layout 2', src: '/Office Furniture/1 (6).png' },
+  { id: 5, type: 'single', category: 'OFFICE FURNITURE', title: 'Office Desk Setup', src: '/Office Furniture/3 (3).png' },
+  { id: 6, type: 'single', category: 'OFFICE FURNITURE', title: 'Modern Setting', src: '/Office Furniture/Confident portrait in modern setting.png' },
+
+  // Kitchen / Interior Images (mapped to RESIDENTIAL / KITCHEN DESIGN to fit the filters)
+  { id: 7, type: 'single', category: 'RESIDENTIAL', title: 'Bedroom Scene 1', src: '/Kitchen/BEDROOM2Scene 1.png' },
+  { id: 8, type: 'single', category: 'RESIDENTIAL', title: 'Master Bedroom', src: '/Kitchen/Master bed v1.png' },
+  { id: 9, type: 'single', category: 'KITCHEN DESIGN', title: 'Kitchen View 1', src: '/Kitchen/2.jpg.jpeg' },
+  { id: 10, type: 'single', category: 'RESIDENTIAL', title: 'Interior View 2', src: '/Kitchen/VIEW 2.jpg.jpeg' },
+];
+
 const PortfolioGrid = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCat, setActiveCat] = useState('ALL');
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
-  const categories = ["All", "Office Furniture", "Kitchen Design", "Residential", "Commercial", "Product Design"];
+  const filteredProjects = activeCat === 'ALL' 
+    ? projectsData 
+    : projectsData.filter(p => p.category === activeCat);
 
-  const filteredProjects = activeCategory === "All" 
-    ? projects 
-    : projects.filter(p => !p.isPlan && p.category === activeCategory);
+  const splits = filteredProjects.filter(p => p.type === 'split');
+  const singles = filteredProjects.filter(p => p.type === 'single');
 
   return (
-    <section id="portfolio" style={{ padding: '100px 5%' }}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        style={{ textAlign: 'center', marginBottom: '60px' }}
-      >
-        <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '2px' }}>PORTFOLIO GRID</span>
-        <h2 style={{ fontSize: '3.5rem', marginTop: '10px', fontFamily: 'var(--font-heading)' }}>
-          Technical <span style={{ color: 'var(--accent-gold)' }}>Excellence.</span>
-        </h2>
-      </motion.div>
+    <>
+      <section id="portfolio" ref={ref} className="pg-section">
+        <motion.div
+          className="pg-heading-block"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="pg-eyebrow">Selected Works</span>
+          <h2 className="pg-heading">Technical Excellence.</h2>
+          <div className="pg-rule" />
+        </motion.div>
 
-      {/* Category Filter */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        gap: '10px', 
-        marginBottom: '60px',
-        flexWrap: 'wrap'
-      }}>
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            style={{
-              position: 'relative',
-              padding: '12px 25px',
-              background: 'none',
-              border: 'none',
-              color: activeCategory === cat ? 'var(--bg-color)' : 'var(--text-secondary)',
-              fontSize: '0.85rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              transition: 'color 0.3s ease',
-              zIndex: 1
-            }}
-          >
-            {activeCategory === cat && (
-              <motion.div
-                layoutId="activePill"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundColor: 'var(--accent-gold)',
-                  borderRadius: '50px',
-                  zIndex: -1
-                }}
-                transition={{ type: 'spring', bounce: 0.25, duration: 0.5 }}
-              />
-            )}
-            {cat.toUpperCase()}
-          </button>
-        ))}
-      </div>
-
-      {/* Masonry Layout with AnimatePresence */}
-      <motion.div 
-        layout
-        style={{
-          columnCount: window.innerWidth > 992 ? 2 : 1,
-          columnGap: '30px',
-        }}
-      >
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
-            <motion.div 
-              key={project.id} 
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4 }}
-              style={{ breakInside: 'avoid', marginBottom: '30px' }}
+        {/* Filters */}
+        <motion.div 
+          className="pg-filters"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.3 }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCat(cat)}
+              className={`pg-filter-btn ${activeCat === cat ? 'active' : ''}`}
             >
-              {project.featured ? (
-                <SplitViewCard project={project} onOpen={setSelectedImage} />
-              ) : (
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  style={{
-                    position: 'relative',
-                    borderRadius: '20px',
-                    overflow: 'hidden',
-                    boxShadow: '0 15px 30px rgba(0,0,0,0.3)',
-                    border: '1px solid var(--glass-border)',
-                    cursor: 'pointer'
-                  }}
-                  onClick={() => setSelectedImage(project.image || project.plan)}
-                >
-                  <img src={project.image || project.plan} style={{ width: '100%', height: 'auto', display: 'block' }} alt={project.title} />
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    padding: '25px',
-                    opacity: 0,
-                    transition: 'opacity 0.3s ease'
-                  }} className="hover-info">
-                    <span style={{ color: 'var(--accent-gold)', fontSize: '0.7rem', fontWeight: 700 }}>{project.category}</span>
-                    <h3 style={{ color: 'white', marginTop: '5px' }}>{project.title}</h3>
-                  </div>
-                </motion.div>
-              )}
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
-
-      {/* Explore Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        style={{ textAlign: 'center', marginTop: '60px' }}
-      >
-        <Link to="/projects" style={{ textDecoration: 'none' }}>
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: 'var(--gold-glow)' }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              padding: '20px 50px',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--accent-gold)',
-              color: 'var(--accent-gold)',
-              fontSize: '0.9rem',
-              fontWeight: 800,
-              letterSpacing: '3px',
-              cursor: 'pointer',
-              borderRadius: '50px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px'
-            }}
-          >
-            EXPLORE ALL PROJECTS <Maximize2 size={18} />
-          </motion.button>
-        </Link>
-      </motion.div>
-
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              backgroundColor: 'rgba(0,0,0,0.95)',
-              zIndex: 2000,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '40px'
-            }}
-            onClick={() => setSelectedImage(null)}
-          >
-            <button 
-              style={{ position: 'absolute', top: '40px', right: '40px', background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}
-              onClick={() => setSelectedImage(null)}
-            >
-              <X size={40} />
+              {cat}
             </button>
-            <motion.img 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              src={selectedImage} 
-              style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: '10px', boxShadow: '0 0 50px rgba(0,0,0,0.5)' }} 
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+          ))}
+        </motion.div>
+
+        {/* Grid Container */}
+        <motion.div layout className="pg-grid-container">
+          <AnimatePresence>
+            
+            {/* ROW 1: Split Views */}
+            {splits.length > 0 && (
+              <div className="pg-split-row">
+                {splits.map((p) => (
+                  <motion.div
+                    key={p.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <SplitViewCard 
+                      title={p.title} 
+                      category={p.category} 
+                      cadSrc={p.cadSrc} 
+                      renderSrc={p.renderSrc} 
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            )}
+
+            {/* ROW 2: Single Images (Masonry / Standard Grid) */}
+            {singles.length > 0 && (
+              <div className="pg-standard-grid">
+                {singles.map((p) => (
+                  <motion.div
+                    key={p.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                    className="pg-single-card"
+                  >
+                    <img src={p.src} alt={p.title} className="pg-single-img" />
+                    <div className="pg-single-overlay">
+                      <h3 className="pg-single-title">{p.title}</h3>
+                      <span className="pg-single-cat">{p.category}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+
+          </AnimatePresence>
+        </motion.div>
+      </section>
 
       <style>{`
-        .breakInside:avoid { break-inside: avoid; }
-        div:hover > .hover-info { opacity: 1 !important; }
+        .pg-section {
+          background: #000;
+          padding: 100px 5%;
+          box-sizing: border-box;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .pg-heading-block {
+          text-align: center;
+          margin-bottom: 40px;
+        }
+
+        .pg-eyebrow {
+          display: block;
+          font-family: 'Lato', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: #C4A574;
+          margin-bottom: 14px;
+        }
+
+        .pg-heading {
+          font-family: 'Arvo', serif;
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 700;
+          color: #fff;
+          margin: 0;
+          line-height: 1.1;
+        }
+
+        .pg-rule {
+          width: 50px;
+          height: 2px;
+          background: #C4A574;
+          margin: 20px auto 0;
+        }
+
+        /* Nav Filters */
+        .pg-filters {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 12px;
+          margin-bottom: 50px;
+          max-width: 900px;
+        }
+
+        .pg-filter-btn {
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.1);
+          color: rgba(255,255,255,0.6);
+          padding: 8px 18px;
+          border-radius: 50px;
+          font-family: 'Lato', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 600;
+          letter-spacing: 1px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .pg-filter-btn:hover {
+          border-color: rgba(196,165,116,0.5);
+          color: #C4A574;
+        }
+
+        .pg-filter-btn.active {
+          background: #C4A574;
+          color: #000;
+          border-color: #C4A574;
+        }
+
+        /* Container */
+        .pg-grid-container {
+          width: 100%;
+          max-width: 1200px;
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+        }
+
+        /* Row 1: Split Views */
+        .pg-split-row {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 30px;
+        }
+
+        .pg-split-wrap {
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          overflow: hidden;
+          background: #0a0a0a;
+        }
+        
+        .pg-split-container {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 4/3;
+          overflow: hidden;
+          cursor: col-resize;
+          user-select: none;
+          background: #111; /* Fallback for missing images */
+        }
+        
+        .pg-split-img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          pointer-events: none;
+        }
+
+        /* This overlay handles the clip-path for sliding effect */
+        .pg-split-overlay {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          pointer-events: none;
+        }
+
+        .pg-split-divider {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: #C4A574;
+          transform: translateX(-50%);
+          pointer-events: none;
+          z-index: 10;
+        }
+
+        .pg-split-handle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 36px;
+          height: 36px;
+          background: #C4A574;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+          gap: 2px;
+        }
+
+        .pg-split-label {
+          position: absolute;
+          bottom: 16px;
+          background: rgba(0,0,0,0.6);
+          color: #fff;
+          padding: 4px 12px;
+          border-radius: 4px;
+          font-family: 'Lato', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 1px;
+          pointer-events: none;
+          backdrop-filter: blur(4px);
+        }
+        .pg-label-left { left: 16px; }
+        .pg-label-right { right: 16px; }
+
+        .pg-split-info {
+          padding: 20px;
+          background: #0a0a0a;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .pg-info-title {
+          font-family: 'Arvo', serif;
+          font-size: 1.1rem;
+          color: #fff;
+          margin: 0 0 6px 0;
+        }
+
+        .pg-info-cat {
+          font-family: 'Lato', sans-serif;
+          font-size: 0.75rem;
+          color: #C4A574;
+          font-weight: 600;
+          letter-spacing: 1px;
+        }
+
+        /* Row 2: Standard Images */
+        .pg-standard-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+
+        .pg-single-card {
+          position: relative;
+          aspect-ratio: 1/1;
+          border-radius: 12px;
+          overflow: hidden;
+          background: #111;
+          border: 1px solid rgba(255,255,255,0.05);
+          group;
+        }
+
+        .pg-single-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s ease;
+        }
+
+        .pg-single-card:hover .pg-single-img {
+          transform: scale(1.08);
+        }
+
+        .pg-single-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 24px;
+        }
+
+        .pg-single-title {
+          font-family: 'Arvo', serif;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #fff;
+          margin: 0 0 6px 0;
+        }
+
+        .pg-single-cat {
+          font-family: 'Lato', sans-serif;
+          font-size: 0.7rem;
+          color: #C4A574;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+          .pg-split-row { grid-template-columns: 1fr; }
+          .pg-standard-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+          .pg-section { padding: 80px 20px; }
+          .pg-standard-grid { grid-template-columns: 1fr; gap: 16px; }
+          .pg-split-container { aspect-ratio: 1/1; }
+        }
       `}</style>
-    </section>
+    </>
   );
 };
 

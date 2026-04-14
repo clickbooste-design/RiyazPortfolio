@@ -130,115 +130,14 @@ code, pre, kbd, samp, .mono {
 /* ═══════════════════════════════════════════════════════════
    SECTIONS – Global responsive container
 ═══════════════════════════════════════════════════════════ */
+/* Note: Most components are handling their own padding and max-widths internally */
 section {
-  padding: 100px 5%;
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
-}
-
-/* ─── 2-column grids inside sections → stack on tablet ─── */
-section .two-col,
-section [style*="gridTemplateColumns: 'minmax"],
-section [style*="gridTemplateColumns: '1.2fr"],
-section [style*="gridTemplateColumns: '1fr 1fr"] {
-  grid-template-columns: 1fr !important;
 }
 
 /* ─── Utility classes ─── */
 .text-center { text-align: center; }
-.mobile-hide { }
-.fade-in-up  { opacity: 0; transform: translateY(30px); }
-
-/* ═══════════════════════════════════════════════════════════
-   ABOUT – responsive overrides
-═══════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  #about div[style*="gridTemplateColumns"] {
-    grid-template-columns: 1fr !important;
-    gap: 50px !important;
-  }
-  #about div[style*="aspectRatio"] {
-    max-width: 440px;
-    margin: 0 auto;
-  }
-  #about div[style*="gridTemplateColumns: '1fr 1fr'"] {
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   PORTFOLIO GRID – responsive overrides
-═══════════════════════════════════════════════════════════ */
-#portfolio .filter-bar {
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
-#portfolio .filter-bar button {
-  font-size: 0.78rem !important;
-  padding: 10px 18px !important;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   EDUCATION / EXPERIENCE – responsive overrides
-═══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  #education  div[style*="gridTemplateColumns"],
-  #experience div[style*="gridTemplateColumns"] {
-    grid-template-columns: 1fr !important;
-    gap: 30px !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   CONTACT – responsive overrides
-═══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  #contact div[style*="gridTemplateColumns"] {
-    grid-template-columns: 1fr !important;
-    gap: 40px !important;
-  }
-  #contact form {
-    padding: 30px 20px !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   BREAKPOINTS
-═══════════════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  section { padding: 80px 5%; }
-}
-
-@media (max-width: 768px) {
-  section { padding: 70px 5%; }
-  .mobile-hide { display: none !important; }
-
-  h1 { font-size: clamp(2rem, 8vw, 3rem)   !important; }
-  h2 { font-size: clamp(1.8rem, 7vw, 2.5rem) !important; }
-  h3 { font-size: clamp(1.2rem, 5vw, 1.8rem) !important; }
-}
-
-@media (max-width: 480px) {
-  section { padding: 60px 20px; }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   PORTFOLIO GRID – masonry column override
-═══════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  #portfolio [style*="columnCount"] {
-    column-count: 1 !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   HOVER: portfolio cards
-═══════════════════════════════════════════════════════════ */
-div:hover > .hover-info { opacity: 1 !important; }
+.mobile-hide { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════
    PRINT OVERRIDES

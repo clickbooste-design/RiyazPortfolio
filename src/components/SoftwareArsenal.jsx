@@ -2,61 +2,28 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-/* ── SVG Icon components — white, minimal, 48×48 viewBox ── */
-const IconSketchUp = () => (
-  <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="8" y="14" width="22" height="22" rx="2" stroke="white" strokeWidth="2" fill="none"/>
-    <path d="M8 14 L24 6 L38 14 L22 22 Z" stroke="white" strokeWidth="2" fill="none" strokeLinejoin="round"/>
-    <path d="M30 14 L30 30" stroke="white" strokeWidth="2"/>
-    <path d="M38 14 L38 30 L30 38 L8 38" stroke="white" strokeWidth="2" fill="none" strokeLinejoin="round"/>
-  </svg>
-);
-
-const IconLumion = () => (
-  <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M24 6 L38 38 L10 38 Z" stroke="white" strokeWidth="2" fill="none" strokeLinejoin="round"/>
-    <path d="M16 30 Q24 18 32 30" stroke="white" strokeWidth="1.5" fill="none"/>
-    <circle cx="24" cy="13" r="2" fill="white"/>
-  </svg>
-);
-
-const IconD5Render = () => (
-  <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="6" y="10" width="36" height="24" rx="3" stroke="white" strokeWidth="2" fill="none"/>
-    <path d="M16 38 L32 38" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M24 34 L24 38" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="24" cy="22" r="6" stroke="white" strokeWidth="1.5" fill="none"/>
-    <path d="M21 22 L23 24 L27 20" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const IconAutoCAD = () => (
-  <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="24" cy="24" r="16" stroke="white" strokeWidth="2" fill="none"/>
-    <circle cx="24" cy="24" r="3" fill="white"/>
-    <path d="M24 8 L24 14" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M38 24 L34 24" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M24 40 L24 34" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M10 24 L14 24" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M24 24 L34 14" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+const CodeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C4A574" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="16 18 22 12 16 6"></polyline>
+    <polyline points="8 6 2 12 8 18"></polyline>
   </svg>
 );
 
 const software = [
-  { name: 'SketchUp',  Icon: IconSketchUp,  desc: '3D Modeling'     },
-  { name: 'Lumion',    Icon: IconLumion,    desc: 'Real-time Render' },
-  { name: 'D5 Render', Icon: IconD5Render,  desc: 'Visualization'   },
-  { name: 'AutoCAD',   Icon: IconAutoCAD,   desc: 'CAD Drafting'    },
+  { key: 'SketchUp',  name: 'SketchUp',   desc: 'Primary 3D Modeling platform for rapid prototyping and detailed architectural structuring.' },
+  { key: 'Lumion',    name: 'Lumion',     desc: 'Real-time rendering engine used to produce atmospheric and lively architectural scenes.' },
+  { key: 'D5Render',  name: 'D5 Render',  desc: 'Ray-tracing software for high-fidelity photorealistic output and material accuracy.' },
+  { key: 'AutoCAD',   name: 'AutoCAD',    desc: 'Industry standard for technical 2D drafting, floor plans, and schematic elevations.' },
 ];
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.15 } },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.92 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+const itemVariants = {
+  hidden: { opacity: 0, x: -30 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const SoftwareArsenal = () => {
@@ -65,213 +32,145 @@ const SoftwareArsenal = () => {
   return (
     <>
       <section id="software" ref={ref} className="sa-section">
-        {/* ── Heading ── */}
+        {/* Heading */}
         <motion.div
           className="sa-heading-block"
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="sa-eyebrow">Tools of the Trade</span>
+          <span className="sa-eyebrow">Tools</span>
           <h2 className="sa-heading">Software Arsenal</h2>
           <div className="sa-rule" />
         </motion.div>
 
-        {/* ── Cards grid ── */}
+        {/* Stacked Vertical Layout */}
         <motion.div
-          className="sa-grid"
+          className="sa-stack"
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
         >
-          {software.map(({ name, Icon, desc }) => (
+          {software.map(({ key, name, desc }) => (
             <motion.div
-              key={name}
-              className="sa-card"
-              variants={cardVariants}
-              whileHover={{
-                y: -10,
-                borderColor: 'rgba(196, 165, 116, 0.55)',
-                boxShadow: '0 20px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(196,165,116,0.2)',
-              }}
-              transition={{ duration: 0.25 }}
+              key={key}
+              className="sa-row-item"
+              variants={itemVariants}
+              whileHover={{ x: 10, backgroundColor: 'rgba(255,255,255,0.03)' }}
             >
               <div className="sa-icon-wrap">
-                <Icon />
+                <CodeIcon />
               </div>
-              <p className="sa-name">{name}</p>
-              <p className="sa-desc">{desc}</p>
+              <div className="sa-text-wrap">
+                <h3 className="sa-name">{name}</h3>
+                <p className="sa-desc">{desc}</p>
+              </div>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
       <style>{`
-        /* ── Section ── */
         .sa-section {
           background: #000;
-          padding: 0 5% 120px;
+          padding: 80px 5%;
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 100%;
           box-sizing: border-box;
         }
 
-        /* ── Heading block ── */
         .sa-heading-block {
           text-align: center;
-          margin-bottom: 64px;
+          margin-bottom: 60px;
         }
 
         .sa-eyebrow {
           display: block;
+          font-family: 'Lato', sans-serif;
           font-size: 0.75rem;
           font-weight: 700;
           letter-spacing: 3px;
           text-transform: uppercase;
           color: #C4A574;
           margin-bottom: 14px;
-          font-family: 'Lato', sans-serif;
         }
 
         .sa-heading {
-          font-family: 'Playfair Display', 'Georgia', serif;
+          font-family: 'Arvo', serif;
           font-size: clamp(2rem, 5vw, 3.5rem);
-          font-weight: 700;
-          color: #C4A574;
-          margin: 0;
-          line-height: 1.1;
-          letter-spacing: -0.01em;
-        }
-
-        .sa-rule {
-          width: 60px;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #C4A574, transparent);
-          margin: 22px auto 0;
-          border-radius: 2px;
-        }
-
-        /* ── Grid ── */
-        .sa-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
-          width: 100%;
-          max-width: 860px;
-        }
-
-        /* ── Card ── */
-        .sa-card {
-          background: #111;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 20px;
-          padding: 40px 20px 32px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 14px;
-          cursor: default;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .sa-icon-wrap {
-          width: 72px;
-          height: 72px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(255, 255, 255, 0.04);
-          border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .sa-name {
-          font-family: 'Lato', sans-serif;
-          font-size: 0.95rem;
           font-weight: 700;
           color: #fff;
           margin: 0;
-          letter-spacing: 0.3px;
-          text-align: center;
+          line-height: 1.1;
+        }
+
+        .sa-rule {
+          width: 50px;
+          height: 2px;
+          background: #C4A574;
+          margin: 20px auto 0;
+        }
+
+        /* Stacked Row Items */
+        .sa-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          width: 100%;
+          max-width: 800px;
+        }
+
+        .sa-row-item {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 8px;
+          padding: 24px 30px;
+          transition: all 0.3s ease;
+        }
+
+        .sa-icon-wrap {
+          width: 60px;
+          height: 60px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(196,165,116,0.08);
+          border-radius: 50%;
+        }
+
+        .sa-text-wrap {
+          flex: 1;
+        }
+
+        .sa-name {
+          font-family: 'Arvo', serif;
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #fff;
+          margin: 0 0 8px 0;
         }
 
         .sa-desc {
           font-family: 'Lato', sans-serif;
-          font-size: 0.75rem;
-          color: #9ca3af;
+          font-size: 0.9rem;
+          color: rgba(255,255,255,0.6);
+          line-height: 1.5;
           margin: 0;
-          letter-spacing: 0.5px;
-          text-align: center;
         }
 
-        /* ── TABLET (768–1023px) ── */
-        @media (max-width: 1023px) and (min-width: 768px) {
-          .sa-section {
-            padding-bottom: 90px;
-          }
-          .sa-grid {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 560px;
-            gap: 20px;
-          }
-          .sa-card {
-            padding: 36px 18px 28px;
-          }
-          .sa-heading {
-            font-size: clamp(2rem, 5vw, 2.8rem);
-          }
-        }
-
-        /* ── MOBILE (< 768px) ── */
+        /* Mobile */
         @media (max-width: 767px) {
-          .sa-section {
-            padding: 0 20px 80px;
-          }
-          .sa-heading {
-            font-size: clamp(1.8rem, 7vw, 2.2rem);
-          }
-          .sa-grid {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 400px;
-            gap: 14px;
-          }
-          .sa-card {
-            padding: 28px 14px 22px;
-            border-radius: 14px;
-            gap: 10px;
-          }
-          .sa-icon-wrap {
-            width: 58px;
-            height: 58px;
-          }
-          .sa-name {
-            font-size: 0.87rem;
-          }
-        }
-
-        /* ── SMALL MOBILE (< 400px) ── */
-        @media (max-width: 399px) {
-          .sa-grid {
-            grid-template-columns: 1fr;
-            max-width: 280px;
-            gap: 12px;
-          }
-          .sa-card {
-            flex-direction: row;
-            justify-content: flex-start;
-            padding: 20px 24px;
-            gap: 18px;
-            border-radius: 12px;
-          }
-          .sa-icon-wrap {
-            flex-shrink: 0;
-            width: 52px;
-            height: 52px;
-          }
-          .sa-name, .sa-desc {
-            text-align: left;
+          .sa-section { padding: 60px 20px; }
+          .sa-row-item {
+            flex-direction: column;
+            text-align: center;
+            gap: 16px;
+            padding: 24px 20px;
           }
         }
       `}</style>

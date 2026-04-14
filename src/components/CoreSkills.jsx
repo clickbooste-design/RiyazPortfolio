@@ -3,23 +3,23 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const skills = [
-  'Architectural 3D Visualization',
-  'Exterior & Interior Rendering',
-  'Lighting and Material Setup',
-  '3D Modeling',
-  'Presentation Visualization',
-  'Technical Drawing & CAD Drafting',
-  'Team Coordination and Project Support',
+  'Interior Design', 'CAD Draughting', '3D Visualization', 'Exterior Rendering', 
+  'Furniture Design', 'Schematic Planning', 'Material Selection', 'Lighting Setup',
+  'Post Production', 'Spatial Layout', 'Construction Oversight', 'Project Management'
 ];
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
+  visible: { transition: { staggerChildren: 0.1 } }
 };
 
-const pillVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.94 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+const tagVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    scale: 1, 
+    transition: { type: 'spring', damping: 20, stiffness: 200 } 
+  }
 };
 
 const CoreSkills = () => {
@@ -28,168 +28,121 @@ const CoreSkills = () => {
   return (
     <>
       <section id="skills" ref={ref} className="cs-section">
-        {/* ── Heading ── */}
+        {/* Heading */}
         <motion.div
           className="cs-heading-block"
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="cs-eyebrow">What I Bring</span>
           <h2 className="cs-heading">Core Skills</h2>
           <div className="cs-rule" />
         </motion.div>
 
-        {/* ── Pill grid ── */}
+        {/* Tag Cloud Container */}
         <motion.div
-          className="cs-pills"
+          className="cs-cloud-container"
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
         >
-          {skills.map((skill) => (
-            <motion.button
+          {skills.map((skill, i) => (
+            <motion.div
               key={skill}
-              className="cs-pill"
-              variants={pillVariants}
-              whileHover={{ scale: 1.06, borderColor: '#C4A574', color: '#C4A574' }}
-              whileTap={{ scale: 0.97 }}
+              variants={tagVariants}
+              whileHover={{ 
+                scale: 1.05, 
+                backgroundColor: 'rgba(196,165,116,0.15)',
+                borderColor: '#C4A574' 
+              }}
+              className={`cs-tag ${i % 3 === 0 ? 'cs-tag-large' : i % 5 === 0 ? 'cs-tag-small' : ''}`}
             >
               {skill}
-            </motion.button>
+            </motion.div>
           ))}
         </motion.div>
       </section>
 
       <style>{`
-        /* ── Section ── */
         .cs-section {
-          background: #000;
-          padding: 110px 5% 100px;
+          background: #0d0d0d;
+          padding: 100px 5% 80px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 100%;
           box-sizing: border-box;
         }
-
-        /* ── Heading block ── */
+        
         .cs-heading-block {
           text-align: center;
-          margin-bottom: 60px;
-        }
-
-        .cs-eyebrow {
-          display: block;
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          color: #C4A574;
-          margin-bottom: 14px;
-          font-family: 'Lato', sans-serif;
+          margin-bottom: 56px;
         }
 
         .cs-heading {
-          font-family: 'Playfair Display', 'Georgia', serif;
+          font-family: 'Arvo', serif;
           font-size: clamp(2rem, 5vw, 3.5rem);
           font-weight: 700;
-          color: #C4A574;
+          color: #fff;
           margin: 0;
           line-height: 1.1;
-          letter-spacing: -0.01em;
         }
 
         .cs-rule {
-          width: 60px;
+          width: 50px;
           height: 2px;
-          background: linear-gradient(90deg, transparent, #C4A574, transparent);
-          margin: 22px auto 0;
-          border-radius: 2px;
+          background: #C4A574;
+          margin: 15px auto 0;
         }
 
-        /* ── Pills container ── */
-        .cs-pills {
+        /* Tag Cloud - Flex Wrap centered */
+        .cs-cloud-container {
+          width: 100%;
+          max-width: 800px;
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
+          align-content: center;
           gap: 14px;
-          max-width: 860px;
-          width: 100%;
         }
 
-        /* ── Individual pill ── */
-        .cs-pill {
-          background: #111;
-          color: #fff;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 50px;
-          padding: 14px 28px;
+        .cs-tag {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          color: rgba(255,255,255,0.8);
+          padding: 12px 24px;
+          border-radius: 4px;
           font-family: 'Lato', sans-serif;
-          font-size: 0.92rem;
+          font-size: 0.95rem;
           font-weight: 400;
-          letter-spacing: 0.3px;
-          cursor: pointer;
+          cursor: default;
+          transition: all 0.3s ease;
           white-space: nowrap;
-          transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
-          min-height: 48px;
-          line-height: 1;
         }
 
-        .cs-pill:hover {
-          background: rgba(196, 165, 116, 0.06);
+        /* Variegated sizes to sell the "cloud" look */
+        .cs-tag-large {
+          font-size: 1.1rem;
+          padding: 14px 28px;
+          font-weight: 600;
+        }
+        
+        .cs-tag-small {
+          font-size: 0.85rem;
+          padding: 10px 20px;
+          color: rgba(255,255,255,0.6);
         }
 
-        /* ── TABLET (768–1023px) ── */
-        @media (max-width: 1023px) and (min-width: 768px) {
-          .cs-section {
-            padding: 80px 5% 70px;
-          }
-          .cs-heading {
-            font-size: clamp(2rem, 5vw, 2.8rem);
-          }
-          .cs-pills {
-            gap: 12px;
-            max-width: 680px;
-          }
-          .cs-pill {
-            padding: 13px 24px;
-            font-size: 0.88rem;
-          }
-        }
-
-        /* ── MOBILE (< 768px) ── */
+        /* Mobile */
         @media (max-width: 767px) {
-          .cs-section {
-            padding: 70px 20px 60px;
+          .cs-section { 
+            padding: 80px 20px; 
           }
-          .cs-heading {
-            font-size: clamp(1.8rem, 7vw, 2.2rem);
+          .cs-tag {
+            font-size: 0.85rem;
+            padding: 10px 18px;
           }
-          .cs-pills {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 10px;
-            max-width: 420px;
-          }
-          .cs-pill {
-            width: 100%;
-            text-align: center;
-            white-space: normal;
-            padding: 15px 20px;
-            font-size: 0.9rem;
-            min-height: 52px;
-          }
-        }
-
-        /* ── SMALL MOBILE (< 480px) ── */
-        @media (max-width: 479px) {
-          .cs-section {
-            padding: 60px 16px 50px;
-          }
-          .cs-heading-block {
-            margin-bottom: 44px;
-          }
+          .cs-tag-large { font-size: 0.95rem; padding: 12px 20px;}
+          .cs-tag-small { font-size: 0.75rem; padding: 8px 14px;}
         }
       `}</style>
     </>
