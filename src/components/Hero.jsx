@@ -25,7 +25,9 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
               Muhammed Riyas<br/>
-              <span style={{ fontSize: '0.45em', color: 'var(--text-secondary)', display: 'block', marginTop: '10px' }}>Junior Interior Designer based in Al Quoz, Dubai</span>
+              <span style={{ fontFamily: 'Lato, sans-serif', fontSize: '0.4em', fontWeight: 400, color: '#C4A574', display: 'block', marginTop: '10px', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                Dubai, United Arab Emirates
+              </span>
             </motion.h1>
 
             <motion.h2
@@ -34,8 +36,17 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              HELLO 👋 Creative Interior Design & Technical CAD Draughting.
+              Creative Interior Design & AUTOCAD Draftsman.
             </motion.h2>
+
+            <motion.p
+              className="hr-desc"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Transforming conceptual ideas into breathtaking reality. I specialize in drafting precise architectural layouts and rendering photorealistic 3D environments that elevate residential and commercial spaces.
+            </motion.p>
 
             <motion.div
               className="hr-cta-row"
