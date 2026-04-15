@@ -9,21 +9,32 @@ const CodeIcon = () => (
   </svg>
 );
 
+/* ✅ CLEAN + COMPLETE SOFTWARE LIST */
 const software = [
-  { key: 'SketchUp',  name: 'SketchUp',   desc: 'Primary 3D Modeling platform for rapid prototyping and detailed architectural structuring.' },
-  { key: 'Lumion',    name: 'Lumion',     desc: 'Real-time rendering engine used to produce atmospheric and lively architectural scenes.' },
-  { key: 'D5Render',  name: 'D5 Render',  desc: 'Ray-tracing software for high-fidelity photorealistic output and material accuracy.' },
-  { key: 'AutoCAD',   name: 'AutoCAD',    desc: 'Industry standard for technical 2D drafting, floor plans, and schematic elevations.' },
+  { key: 'AutoCAD', name: 'AutoCAD', desc: 'Industry standard for technical 2D drafting and detailed drawings.' },
+  { key: 'SketchUp', name: 'SketchUp', desc: 'Fast and flexible 3D modeling for architecture and interiors.' },
+  { key: 'Enscape', name: 'Enscape', desc: 'Real-time rendering and walkthrough plugin for instant visualization.' },
+  { key: 'Lumion', name: 'Lumion', desc: 'High-speed rendering software for cinematic architectural visuals.' },
+  // { key: '3dsMax', name: '3ds Max', desc: 'Advanced 3D modeling and visualization tool for complex scenes.' },
+  { key: 'Vray', name: 'V-Ray', desc: 'Photorealistic rendering engine for lighting, materials, and realism.' },
+  { key: 'D5Render', name: 'D5 Render', desc: 'Modern real-time ray tracing renderer for high-quality output.' },
+  { key: 'Photoshop', name: 'Photoshop', desc: 'Post-production tool for editing, enhancing, and final presentation.' },
+  { key: 'Koohome', name: 'Koohome', desc: 'High-speed rendering software for cinematic architectural visuals.' },
+  { key: 'MSOffice', name: 'MS Office', desc: 'Used for documentation, reports, and presentations.' }
 ];
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 const itemVariants = {
   hidden: { opacity: 0, x: -30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+  },
 };
 
 const SoftwareArsenal = () => {
@@ -32,19 +43,20 @@ const SoftwareArsenal = () => {
   return (
     <>
       <section id="software" ref={ref} className="sa-section">
+
         {/* Heading */}
         <motion.div
           className="sa-heading-block"
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6 }}
         >
           <span className="sa-eyebrow">Tools</span>
           <h2 className="sa-heading">Software Arsenal</h2>
           <div className="sa-rule" />
         </motion.div>
 
-        {/* Stacked Vertical Layout */}
+        {/* List */}
         <motion.div
           className="sa-stack"
           variants={containerVariants}
@@ -56,11 +68,15 @@ const SoftwareArsenal = () => {
               key={key}
               className="sa-row-item"
               variants={itemVariants}
-              whileHover={{ x: 10, backgroundColor: 'rgba(255,255,255,0.03)' }}
+              whileHover={{
+                x: 8,
+                backgroundColor: 'rgba(255,255,255,0.03)'
+              }}
             >
               <div className="sa-icon-wrap">
                 <CodeIcon />
               </div>
+
               <div className="sa-text-wrap">
                 <h3 className="sa-name">{name}</h3>
                 <p className="sa-desc">{desc}</p>
@@ -68,6 +84,7 @@ const SoftwareArsenal = () => {
             </motion.div>
           ))}
         </motion.div>
+
       </section>
 
       <style>{`
@@ -77,100 +94,78 @@ const SoftwareArsenal = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          box-sizing: border-box;
         }
 
         .sa-heading-block {
           text-align: center;
-          margin-bottom: 60px;
+          margin-bottom: 50px;
         }
 
         .sa-eyebrow {
-          display: block;
-          font-family: 'Lato', sans-serif;
           font-size: 0.75rem;
-          font-weight: 700;
           letter-spacing: 3px;
-          text-transform: uppercase;
           color: #C4A574;
-          margin-bottom: 14px;
+          text-transform: uppercase;
+          margin-bottom: 10px;
         }
 
         .sa-heading {
-          font-family: 'Arvo', serif;
-          font-size: clamp(2rem, 5vw, 3.5rem);
-          font-weight: 700;
+          font-size: clamp(2rem, 5vw, 3rem);
           color: #fff;
           margin: 0;
-          line-height: 1.1;
         }
 
         .sa-rule {
           width: 50px;
           height: 2px;
           background: #C4A574;
-          margin: 20px auto 0;
+          margin: 15px auto 0;
         }
 
-        /* Stacked Row Items */
         .sa-stack {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
           width: 100%;
           max-width: 800px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
         }
 
         .sa-row-item {
           display: flex;
           align-items: center;
-          gap: 24px;
-          background: transparent;
+          gap: 20px;
           border: 1px solid rgba(255,255,255,0.08);
+          padding: 20px 24px;
           border-radius: 8px;
-          padding: 24px 30px;
           transition: all 0.3s ease;
         }
 
         .sa-icon-wrap {
-          width: 60px;
-          height: 60px;
-          flex-shrink: 0;
+          width: 50px;
+          height: 50px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(196,165,116,0.08);
+          background: rgba(196,165,116,0.1);
           border-radius: 50%;
         }
 
-        .sa-text-wrap {
-          flex: 1;
-        }
-
         .sa-name {
-          font-family: 'Arvo', serif;
-          font-size: 1.3rem;
-          font-weight: 700;
           color: #fff;
-          margin: 0 0 8px 0;
+          font-size: 1.1rem;
+          margin: 0 0 5px;
         }
 
         .sa-desc {
-          font-family: 'Lato', sans-serif;
-          font-size: 0.9rem;
           color: rgba(255,255,255,0.6);
-          line-height: 1.5;
+          font-size: 0.9rem;
           margin: 0;
         }
 
-        /* Mobile */
         @media (max-width: 767px) {
-          .sa-section { padding: 60px 20px; }
           .sa-row-item {
             flex-direction: column;
             text-align: center;
-            gap: 16px;
-            padding: 24px 20px;
           }
         }
       `}</style>
