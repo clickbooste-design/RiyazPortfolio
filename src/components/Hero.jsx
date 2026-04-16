@@ -2,237 +2,181 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
+  // Animation Variants
+  const fadeUp = {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  };
+
   return (
-    <>
-      <section id="hero" className="hr-section">
-        <div className="hr-container">
-          {/* Text Content */}
-          <div className="hr-content">
-            <motion.div
-              className="hr-eyebrow-wrap"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <span className="hr-eyebrow">PORTFOLIO 2026</span>
-              <span className="hr-line"></span>
-            </motion.div>
+    <section className="hr-section">
+      <div className="hr-container">
 
-            <motion.h1
-              className="hr-heading"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Muhammed Riyas<br/>
-              <span style={{ fontFamily: 'Lato, sans-serif', fontSize: '0.4em', fontWeight: 400, color: '#C4A574', display: 'block', marginTop: '10px', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                Dubai, United Arab Emirates
-              </span>
-            </motion.h1>
-
-            <motion.h2
-              className="hr-subtitle"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Creative Interior Design & AUTOCAD Draftsman.
-            </motion.h2>
-
-            <motion.p
-              className="hr-desc"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Transforming conceptual ideas into breathtaking reality. I specialize in drafting precise architectural layouts and rendering photorealistic 3D environments that elevate residential and commercial spaces.
-            </motion.p>
-
-            <motion.div
-              className="hr-cta-row"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <a href="#portfolio" className="hr-btn hr-btn-outline">VIEW PORTFOLIO</a>
-              <a href="#contact" className="hr-btn hr-btn-link">HIRE ME →</a>
-            </motion.div>
-          </div>
-
-          {/* Hero Image */}
-          <motion.div
-            className="hr-image-wrap"
-            initial={{ opacity: 0, x: 40 }}
+        {/* TEXT CONTENT */}
+        <div className="hr-content">
+          <motion.span
+            className="hr-eyebrow"
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.2 }}
           >
-            <img
-              src="/Profile/PNG.png"
-              alt="Muhammed Riyas Portrait"
-              className="hr-image"
-            />
+            PORTFOLIO 2026 — DUBAI
+          </motion.span>
+
+          <motion.h1 className="hr-heading" {...fadeUp} transition={{ delay: 0.3 }}>
+            Muhammed <span className="gold-text">Riyas</span>
+          </motion.h1>
+
+          <motion.h2 className="hr-subtitle" {...fadeUp} transition={{ delay: 0.4 }}>
+            Interior Design <span className="ampersand">&</span> CAD Draftsman
+          </motion.h2>
+
+          <motion.p className="hr-desc" {...fadeUp} transition={{ delay: 0.5 }}>
+            Transforming concepts into technical perfection. Specializing in high-end
+            architectural drafting and photorealistic 3D visualization.
+          </motion.p>
+
+          <motion.div className="hr-btns" {...fadeUp} transition={{ delay: 0.6 }}>
+            <a href="#portfolio" className="btn-primary">VIEW WORKS</a>
+            <a href="#contact" className="btn-link">HIRE ME →</a>
           </motion.div>
         </div>
-      </section>
 
-      <style>{`
+        {/* ANIMATED IMAGE */}
+        <motion.div
+          className="hr-image-container"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.4 }}
+        >
+          {/* Floating Motion Wrapper */}
+          <motion.div
+            className="hr-image-glow"
+            animate={{
+              y: [0, -20, 0],
+              rotate: [0, 1, 0]
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <img src="/Profile/PNG.png" alt="Riyas" className="hr-img" />
+            <div className="glow-effect"></div>
+          </motion.div>
+        </motion.div>
+
+      </div>
+
+      <style jsx>{`
         .hr-section {
-          background: #0d0d0d;
-          padding: 120px 5% 60px;
+          background: #080808;
+          min-height: 100vh;
           display: flex;
-          justify-content: center;
-          box-sizing: border-box;
-          min-height: 90vh; /* changed from 100vh to fit nicely */
+          align-items: center;
+          padding: 80px 5%;
           overflow: hidden;
+          position: relative;
         }
 
         .hr-container {
           max-width: 1200px;
-          width: 100%;
+          margin: 0 auto;
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 60px;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 40px;
           align-items: center;
+          z-index: 10;
         }
 
-        .hr-content {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          text-align: left;
-        }
-
-        /* Eyebrow */
-        .hr-eyebrow-wrap {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          margin-bottom: 24px;
-          width: 100%;
-        }
-        .hr-line {
-          height: 1px;
-          flex: 1;
-          background: rgba(196,165,116,0.3);
-          max-width: 60px;
-        }
         .hr-eyebrow {
-          font-family: 'Lato', sans-serif;
+          color: #C4A574;
+          letter-spacing: 5px;
           font-size: 0.75rem;
           font-weight: 700;
-          letter-spacing: 4px;
-          color: #C4A574;
-          text-transform: uppercase;
-        }
-
-        /* Headings */
-        .hr-heading {
-          font-family: 'Arvo', serif;
-          font-size: clamp(3.5rem, 6vw, 5rem);
-          font-weight: 700;
-          color: #fff;
-          margin: 0 0 8px 0;
-          line-height: 1.1;
-        }
-        .hr-subtitle {
-          font-family: 'Arvo', serif;
-          font-size: clamp(1.5rem, 3vw, 2.2rem);
-          font-weight: 400;
-          color: #C4A574;
-          margin: 0 0 24px 0;
-          font-style: italic;
-        }
-        .hr-desc {
-          font-family: 'Lato', sans-serif;
-          font-size: 1rem;
-          color: rgba(255,255,255,0.7);
-          line-height: 1.7;
-          margin: 0 0 40px 0;
-        }
-
-        /* Buttons */
-        .hr-cta-row {
-          display: flex;
-          gap: 20px;
-          align-items: center;
-        }
-        .hr-btn {
-          font-family: 'Lato', sans-serif;
-          font-size: 0.9rem;
-          font-weight: 700;
-          letter-spacing: 1px;
-          padding: 14px 32px;
-          text-decoration: none;
-          transition: all 0.3s ease;
-        }
-        .hr-btn-outline {
-          border: 1px solid #C4A574;
-          color: #C4A574;
-          border-radius: 4px;
-        }
-        .hr-btn-outline:hover {
-          background: rgba(196,165,116,0.1);
-        }
-        .hr-btn-link {
-          color: #fff;
-          padding: 14px 10px;
-        }
-        .hr-btn-link:hover {
-          color: #C4A574;
-        }
-
-        /* Image */
-        .hr-image-wrap {
-          width: 100%;
-          border-radius: 8px;
-          overflow: hidden;
-          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-          /* Match the portrait aspect ratio shown in desktop image */
-          aspect-ratio: 3/4; 
-          border: 1px solid rgba(255,255,255,0.05);
-        }
-        .hr-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+          margin-bottom: 20px;
           display: block;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 900px) {
-          .hr-container {
-            grid-template-columns: 1fr;
-            gap: 40px;
-            /* Reverse order so content is top, image is bottom to match mobile screenshot */
-          }
-          
-          .hr-content {
-            align-items: center;
-            text-align: center;
-          }
-          .hr-eyebrow-wrap {
-            justify-content: center;
-          }
-          .hr-line { display: none; } /* clean up eyebrow on mobile */
-          
-          /* The mobile screenshot actually shows text center-aligned! */
-          .hr-image-wrap {
-            aspect-ratio: 4/5;
-            max-width: 500px;
-            margin: 0 auto;
-          }
+        .hr-heading {
+          font-family: 'Arvo', serif;
+          font-size: clamp(3rem, 8vw, 5rem);
+          color: #fff;
+          line-height: 1;
+          margin: 0 0 15px;
         }
-        
-        @media (max-width: 480px) {
-           .hr-section { padding-top: 100px; }
-           .hr-cta-row {
-             flex-direction: column;
-             width: 100%;
-           }
-           .hr-btn-outline { width: 100%; text-align: center; }
+
+        .gold-text { color: #C4A574; }
+
+        .hr-subtitle {
+          font-size: clamp(1.2rem, 3vw, 1.8rem);
+          color: #e5e5e5;
+          font-weight: 300;
+          margin-bottom: 25px;
+        }
+
+        .hr-desc {
+          color: rgba(255,255,255,0.6);
+          max-width: 500px;
+          line-height: 1.8;
+          margin-bottom: 40px;
+        }
+
+        .hr-btns { display: flex; gap: 25px; align-items: center; }
+
+        .btn-primary {
+          background: #C4A574;
+          color: #000;
+          padding: 16px 35px;
+          border-radius: 4px;
+          font-weight: 700;
+          text-decoration: none;
+          letter-spacing: 1px;
+          transition: 0.3s;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(196,165,116,0.3); }
+
+        .btn-link { color: #fff; text-decoration: none; font-weight: 600; }
+
+        /* IMAGE STYLING */
+        .hr-image-container { position: relative; }
+
+        .hr-image-glow {
+          position: relative;
+          width: 100%;
+          border-radius: 20px;
+        }
+
+        .hr-img {
+          width: 100%;
+          height: auto;
+          position: relative;
+          z-index: 2;
+          filter: drop-shadow(0 20px 50px rgba(0,0,0,0.8));
+        }
+
+        .glow-effect {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%;
+          height: 80%;
+          background: radial-gradient(circle, rgba(196,165,116,0.15) 0%, transparent 70%);
+          z-index: 1;
+        }
+
+        @media (max-width: 968px) {
+          .hr-container { grid-template-columns: 1fr; text-align: center; }
+          .hr-content { align-items: center; order: 2; }
+          .hr-image-container { order: 1; max-width: 400px; margin: 0 auto; }
+          .hr-btns { justify-content: center; }
         }
       `}</style>
-    </>
+    </section>
   );
 };
 

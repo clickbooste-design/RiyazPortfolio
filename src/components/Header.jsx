@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import Logo from './Logo';
 
 const NAV_ITEMS = ['About', 'Portfolio', 'Experience', 'Software', 'Contact'];
 
@@ -56,18 +57,8 @@ const Header = () => {
       >
         {/* ── Logo ── */}
         <Link to="/" style={{ textDecoration: 'none', zIndex: 1100 }}>
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: 'clamp(1rem, 3vw, 1.25rem)',
-              fontWeight: 700,
-              color: 'var(--accent-gold)',
-              letterSpacing: '2px',
-              userSelect: 'none',
-            }}
-          >
-            MUHAMMED <span style={{ color: 'white' }}>RIYAS</span>
+          <motion.div whileHover={{ scale: 1.03 }} style={{ userSelect: 'none' }}>
+            <Logo variant="monogram" />
           </motion.div>
         </Link>
 

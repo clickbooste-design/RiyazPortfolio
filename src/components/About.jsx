@@ -15,7 +15,7 @@ const About = () => {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className="ab-heading">Transforming Concepts into Reality.</h2>
-          
+
           <p className="ab-desc">
             A self-motivated junior interior designer with experience in schematic design and design development. Expert in transforming architectural concepts into realistic 3D renderings and technical AutoCAD drafting. My approach balances technical precision with high-end aesthetic vision.
           </p>
@@ -34,7 +34,7 @@ const About = () => {
         <div className="ab-marquee-content">
           {[...Array(3)].map((_, i) => (
             <span key={i} className="ab-marquee-text">
-              Interior Design ✦ CAD Draughting ✦ SEO Optimization ✦ 3D Visualization ✦ App Design ✦&nbsp;
+              Interior Design ✦ CAD Draughting ✦ 3D Visualization ✦&nbsp;
             </span>
           ))}
         </div>

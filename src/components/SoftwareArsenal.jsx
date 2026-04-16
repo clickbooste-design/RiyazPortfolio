@@ -1,96 +1,97 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+// Importing icons from lucide-react (standard for Next.js) 
+// You can replace these with your own SVG components
+import {
+  Box,
+  Trees,
+  Monitor,
+  Compass,
+  Layers,
+  Building2,
+  Lightbulb,
+  PenTool,
+  Home,
+  Layout
+} from 'lucide-react';
 
-const CodeIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C4A574" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="16 18 22 12 16 6"></polyline>
-    <polyline points="8 6 2 12 8 18"></polyline>
-  </svg>
-);
-
-/* ✅ CLEAN + COMPLETE SOFTWARE LIST */
 const software = [
-  { key: 'AutoCAD', name: 'AutoCAD', desc: 'Industry standard for technical 2D drafting and detailed drawings.' },
-  { key: 'SketchUp', name: 'SketchUp', desc: 'Fast and flexible 3D modeling for architecture and interiors.' },
-  { key: 'Enscape', name: 'Enscape', desc: 'Real-time rendering and walkthrough plugin for instant visualization.' },
-  { key: 'Lumion', name: 'Lumion', desc: 'High-speed rendering software for cinematic architectural visuals.' },
-  // { key: '3dsMax', name: '3ds Max', desc: 'Advanced 3D modeling and visualization tool for complex scenes.' },
-  { key: 'Vray', name: 'V-Ray', desc: 'Photorealistic rendering engine for lighting, materials, and realism.' },
-  { key: 'D5Render', name: 'D5 Render', desc: 'Modern real-time ray tracing renderer for high-quality output.' },
-  { key: 'Photoshop', name: 'Photoshop', desc: 'Post-production tool for editing, enhancing, and final presentation.' },
-  { key: 'Koohome', name: 'Koohome', desc: 'High-speed rendering software for cinematic architectural visuals.' },
-  { key: 'MSOffice', name: 'MS Office', desc: 'Used for documentation, reports, and presentations.' }
+  { key: 'SketchUp', name: 'SketchUp', icon: <Box size={32} /> },
+  { key: 'Lumion', name: 'Lumion', icon: <Trees size={32} /> },
+  { key: 'D5Render', name: 'D5 Render', icon: <Monitor size={32} /> },
+  { key: 'AutoCAD', name: 'AutoCAD', icon: <Compass size={32} /> },
+  { key: '3dsMax', name: '3ds Max', icon: <Layers size={32} /> },
+  { key: 'Revit', name: 'Revit', icon: <Building2 size={32} /> },
+  { key: 'Vray', name: 'V-Ray', icon: <Lightbulb size={32} /> },
+  { key: 'Photoshop', name: 'Photoshop', icon: <PenTool size={32} /> },
+  { key: 'Koohome', name: 'Koohome', icon: <Home size={32} /> },
+  { key: 'MSOffice', name: 'MS Office', icon: <Layout size={32} /> }
 ];
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
-    x: 0,
+    y: 0,
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
   },
 };
 
 const SoftwareArsenal = () => {
-  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true });
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   return (
     <>
       <section id="software" ref={ref} className="sa-section">
-
-        {/* Heading */}
+        {/* Heading Block */}
         <motion.div
           className="sa-heading-block"
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="sa-eyebrow">Tools</span>
+          <span className="sa-eyebrow">Expertise</span>
           <h2 className="sa-heading">Software Arsenal</h2>
           <div className="sa-rule" />
         </motion.div>
 
-        {/* List */}
+        {/* Grid Layout */}
         <motion.div
-          className="sa-stack"
+          className="sa-grid"
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
         >
-          {software.map(({ key, name, desc }) => (
+          {software.map(({ key, name, icon }) => (
             <motion.div
               key={key}
-              className="sa-row-item"
+              className="sa-card"
               variants={itemVariants}
               whileHover={{
-                x: 8,
-                backgroundColor: 'rgba(255,255,255,0.03)'
+                scale: 1.02,
+                backgroundColor: 'rgba(255,255,255,0.05)',
+                borderColor: 'rgba(255,255,255,0.15)'
               }}
             >
-              <div className="sa-icon-wrap">
-                <CodeIcon />
+              <div className="sa-icon-box">
+                {icon}
               </div>
-
-              <div className="sa-text-wrap">
-                <h3 className="sa-name">{name}</h3>
-                <p className="sa-desc">{desc}</p>
-              </div>
+              <h3 className="sa-name">{name}</h3>
             </motion.div>
           ))}
         </motion.div>
-
       </section>
 
       <style>{`
         .sa-section {
-          background: #000;
-          padding: 80px 5%;
+          background: #0d0f11; /* Dark background matching image */
+          padding: 100px 5%;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -98,74 +99,84 @@ const SoftwareArsenal = () => {
 
         .sa-heading-block {
           text-align: center;
-          margin-bottom: 50px;
+          margin-bottom: 60px;
         }
 
         .sa-eyebrow {
-          font-size: 0.75rem;
-          letter-spacing: 3px;
+          font-size: 0.7rem;
+          letter-spacing: 4px;
           color: #C4A574;
           text-transform: uppercase;
-          margin-bottom: 10px;
+          display: block;
+          margin-bottom: 12px;
         }
 
         .sa-heading {
-          font-size: clamp(2rem, 5vw, 3rem);
+          font-size: clamp(2rem, 5vw, 2.5rem);
           color: #fff;
+          font-weight: 300;
           margin: 0;
         }
 
         .sa-rule {
-          width: 50px;
-          height: 2px;
+          width: 40px;
+          height: 1px;
           background: #C4A574;
-          margin: 15px auto 0;
+          margin: 20px auto 0;
         }
 
-        .sa-stack {
+        /* The Grid System */
+        .sa-grid {
           width: 100%;
-          max-width: 800px;
+          max-width: 1100px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+          gap: 20px;
+        }
+
+        /* The Square Card Styling */
+        .sa-card {
+          aspect-ratio: 1 / 1; /* Makes it a perfect square */
+          background: #16181d; /* Slightly lighter dark for the card */
+          border: 1px solid rgba(255,255,255,0.03);
+          border-radius: 16px;
           display: flex;
           flex-direction: column;
-          gap: 14px;
-        }
-
-        .sa-row-item {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          border: 1px solid rgba(255,255,255,0.08);
-          padding: 20px 24px;
-          border-radius: 8px;
-          transition: all 0.3s ease;
-        }
-
-        .sa-icon-wrap {
-          width: 50px;
-          height: 50px;
-          display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(196,165,116,0.1);
-          border-radius: 50%;
+          padding: 20px;
+          transition: all 0.3s ease;
+          cursor: default;
+        }
+
+        .sa-icon-box {
+          color: #fff;
+          margin-bottom: 18px;
+          opacity: 0.9;
         }
 
         .sa-name {
-          color: #fff;
-          font-size: 1.1rem;
-          margin: 0 0 5px;
-        }
-
-        .sa-desc {
-          color: rgba(255,255,255,0.6);
-          font-size: 0.9rem;
+          color: #94a3b8; /* Muted gray text */
+          font-size: 0.95rem;
+          font-weight: 400;
           margin: 0;
+          letter-spacing: 0.5px;
         }
 
-        @media (max-width: 767px) {
-          .sa-row-item {
-            flex-direction: column;
-            text-align: center;
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+          .sa-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .sa-grid {
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+            gap: 12px;
+          }
+          .sa-section {
+            padding: 60px 20px;
           }
         }
       `}</style>
