@@ -15,7 +15,7 @@ const Home = () => {
       <Hero />
       <About />
       <Services />
-      <PortfolioGrid />
+      <PortfolioGrid limit={6} />
       <Experience />
       <Education />
       <CoreSkills />

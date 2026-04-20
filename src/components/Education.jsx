@@ -4,22 +4,22 @@ import { useInView } from 'react-intersection-observer';
 
 const GraduationIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M12 4L2 9L12 14L22 9L12 4Z" stroke="#C4A574" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M6 11V16C6 16 9 19 12 19C15 19 18 16 18 16V11" stroke="#C4A574" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 4L2 9L12 14L22 9L12 4Z" stroke="#C4A574" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6 11V16C6 16 9 19 12 19C15 19 18 16 18 16V11" stroke="#C4A574" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const CompassIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M12 22L12 14M12 14L9 14L12 2L15 14L12 14Z" stroke="#C4A574" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 22L12 14M12 14L9 14L12 2L15 14L12 14Z" stroke="#C4A574" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const GlobeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="10" stroke="#C4A574" strokeWidth="1.5"/>
-    <path d="M2 12H22" stroke="#C4A574" strokeWidth="1.5"/>
-    <path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2V2Z" stroke="#C4A574" strokeWidth="1.5"/>
+    <circle cx="12" cy="12" r="10" stroke="#C4A574" strokeWidth="1.5" />
+    <path d="M2 12H22" stroke="#C4A574" strokeWidth="1.5" />
+    <path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2V2Z" stroke="#C4A574" strokeWidth="1.5" />
   </svg>
 )
 
@@ -40,9 +40,10 @@ const educations = [
 
 const languages = [
   { lang: 'English', level: 'Fluent / Professional' },
-  { lang: 'Arabic', level: 'Conversational' },
   { lang: 'Hindi', level: 'Working Knowledge' },
-  { lang: 'Malayalam', level: 'Native / Bilingual' }
+  { lang: 'Malayalam', level: 'Native / Bilingual' },
+  { lang: 'Tamil', level: 'Conversational' },
+  { lang: 'Arabic', level: 'Conversational' },
 ];
 
 const timelineVariants = {
@@ -56,7 +57,7 @@ const Education = () => {
   return (
     <>
       <section id="education" ref={ref} className="ed-section">
-        
+
         {/* Education Timeline */}
         <div className="ed-container">
           <motion.div
@@ -71,17 +72,17 @@ const Education = () => {
           </motion.div>
 
           <div className="ed-timeline-wrap">
-            <motion.div 
+            <motion.div
               className="ed-timeline-line"
               variants={timelineVariants}
               initial="hidden"
               animate={inView ? 'visible' : 'hidden'}
             />
-            
+
             <div className="ed-items">
               {educations.map(({ Icon, degree, institution, year }, i) => (
                 <div key={i} className="ed-item">
-                  <motion.div 
+                  <motion.div
                     className="ed-timeline-dot"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={inView ? { scale: 1, opacity: 1 } : {}}
@@ -89,7 +90,7 @@ const Education = () => {
                   >
                     <div className="ed-dot-center" />
                   </motion.div>
-                  
+
                   <motion.div
                     className="ed-card"
                     initial={{ opacity: 0, x: 30 }}
@@ -122,7 +123,7 @@ const Education = () => {
             <div className="ed-rule" />
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="lang-stack"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}

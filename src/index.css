@@ -96,6 +96,7 @@ code, pre, kbd, samp, .mono {
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
+  will-change: transform, opacity;
 }
 
 /* ═══════════════════════════════════════════════════════════

@@ -1,26 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { projects } from '../data/projects';
 
-const Portfolio = () => {
+const Portfolio = ({ limit = null }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
-  const categories = ['ALL', 'OFFICE FURNITURE', 'RESIDENTIAL', 'COMMERCIAL', 'KITCHEN DESIGN'];
-
-  const projects = [
-    { id: 1, category: 'OFFICE FURNITURE', title: 'Executive Suite', src: '/Office Furniture/3 (3)q.png' },
-    { id: 2, category: 'KITCHEN DESIGN', title: 'Modern Kitchen', src: '/Kitchen/www.jpeg' },
-    { id: 3, category: 'OFFICE FURNITURE', title: 'Corporate Layout', src: '/Office Furniture/1 (5).png' },
-    { id: 4, category: 'OFFICE FURNITURE', title: 'Collaborative Zone', src: '/Office Furniture/1 (6).png' },
-    { id: 5, category: 'RESIDENTIAL', title: 'Master Bedroom', src: '/Kitchen/Master bed v1.png' },
-    { id: 6, category: 'RESIDENTIAL', title: 'Modern Bedroom', src: '/Kitchen/BEDROOM2Scene 1.png' },
-    { id: 7, category: 'COMMERCIAL', title: 'Reception Area', src: '/Kitchen/VIEW 2.jpg.jpeg' },
-    { id: 8, category: 'OFFICE FURNITURE', title: 'Ergonomic Space', src: '/Office Furniture/3 (3).png' },
-    { id: 9, category: 'KITCHEN DESIGN', title: 'Minimalist Kitchen', src: '/Kitchen/2.jpg.jpeg' },
-  ];
+  const categories = ['ALL', 'OFFICE FURNITURE', 'RESIDENTIAL', 'COMMERCIAL', 'KITCHEN DESIGN', 'PLAN'];
 
   const filteredProjects = activeFilter === 'ALL'
     ? projects
     : projects.filter(p => p.category === activeFilter);
+
+  // Apply limit if provided
+  const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
 
   // Animation Variants
   const containerVariants = {
@@ -42,14 +35,14 @@ const Portfolio = () => {
 
         {/* --- SECTION HEADING --- */}
         <motion.div
-          className="section-header"
+           className="section-header"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
           <span className="eyebrow">Expertise in Interior & CAD</span>
-          <h2 className="heading">Featured Projects</h2>
+          <h2 className="heading">{limit ? 'Featured Projects' : 'Project Archive'}</h2>
           <div className="accent-line"></div>
         </motion.div>
 
@@ -75,7 +68,7 @@ const Portfolio = () => {
           viewport={{ once: true }}
         >
           <AnimatePresence mode='popLayout'>
-            {filteredProjects.map((project) => (
+            {displayedProjects.map((project) => (
               <motion.div
                 key={project.id}
                 layout
@@ -85,18 +78,27 @@ const Portfolio = () => {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="portfolio-card"
               >
-                <div className="image-box">
+                <Link to={`/project/${project.id}`} className="image-box">
                   <img src={project.src} alt={project.title} />
                   <div className="hover-overlay">
                     <span className="project-cat">{project.category}</span>
                     <h3 className="project-title">{project.title}</h3>
                     <div className="view-btn">View Details ↗</div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* --- VIEW ALL BUTTON (Only visible if limit is set) --- */}
+        {limit && projects.length > limit && (
+          <div style={{ textAlign: 'center', marginTop: '60px' }}>
+            <Link to="/projects" className="explore-more-btn">
+              Explore All Projects
+            </Link>
+          </div>
+        )}
 
       </div>
 
@@ -187,6 +189,8 @@ const Portfolio = () => {
           width: 100%;
           height: 100%;
           position: relative;
+          display: block;
+          text-decoration: none;
         }
 
         .image-box img {
@@ -249,6 +253,26 @@ const Portfolio = () => {
           color: #000;
           opacity: 1;
           transform: translateY(0);
+        }
+
+        .explore-more-btn {
+          display: inline-block;
+          padding: 15px 40px;
+          background: transparent;
+          border: 1px solid #C4A574;
+          color: #C4A574;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 0.85rem;
+          letter-spacing: 2px;
+          text-decoration: none;
+          border-radius: 4px;
+          transition: all 0.4s ease;
+        }
+
+        .explore-more-btn:hover {
+          background: #C4A574;
+          color: #000;
         }
 
         /* --- RESPONSIVE MEDIA QUERIES --- */

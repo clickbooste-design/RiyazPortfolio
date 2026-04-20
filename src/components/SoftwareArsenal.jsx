@@ -18,6 +18,7 @@ import {
 
 const software = [
   { key: 'SketchUp', name: 'SketchUp', icon: <Box size={32} /> },
+  { key: 'Enscape', name: 'Enscape', icon: <Box size={32} /> },
   { key: 'Lumion', name: 'Lumion', icon: <Trees size={32} /> },
   { key: 'D5Render', name: 'D5 Render', icon: <Monitor size={32} /> },
   { key: 'AutoCAD', name: 'AutoCAD', icon: <Compass size={32} /> },
