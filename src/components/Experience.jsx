@@ -10,10 +10,10 @@ const experiences = [
     watermark: '2025'
   },
   {
-    role: 'BIM/Site Supervisor',
+    role: 'Interior & Exterior Designer',
     company: 'D-Notion Interiors',
-    period: '2022 – 2023',
-    watermark: '2023'
+    period: '2023 – 2024',
+    watermark: '2024'
   },
   {
     role: 'Junior 3D Visualizer',

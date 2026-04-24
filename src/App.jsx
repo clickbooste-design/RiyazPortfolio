@@ -12,12 +12,11 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    // Faster, minimal lag smooth scrolling
     const lenis = new Lenis({
-      duration: 0.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.2, // Higher lerp means it follows the scroll wheel more quickly
+      wheelMultiplier: 1.2, // Scroll slightly more per wheel tick
       smoothWheel: true,
-      wheelMultiplier: 1,
-      lerp: 0.1,
     });
 
     function raf(time) {

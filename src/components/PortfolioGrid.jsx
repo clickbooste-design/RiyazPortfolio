@@ -6,7 +6,7 @@ import { projects } from '../data/projects';
 const Portfolio = ({ limit = null }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
-  const categories = ['ALL', 'OFFICE FURNITURE', 'RESIDENTIAL', 'COMMERCIAL', 'KITCHEN DESIGN', 'PLAN'];
+  const categories = ['ALL', 'OFFICE FURNITURE', 'RESIDENTIAL', 'COMMERCIAL', 'KITCHEN DESIGN', 'DETAILED-DRAWING'];
 
   const filteredProjects = activeFilter === 'ALL'
     ? projects
@@ -35,7 +35,7 @@ const Portfolio = ({ limit = null }) => {
 
         {/* --- SECTION HEADING --- */}
         <motion.div
-           className="section-header"
+          className="section-header"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
